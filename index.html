@@ -22,6 +22,7 @@
             --x-color: #000000;
             --youtube-color: #FF0000;
             --tiktok-color: #000000;
+            --linkedin-color: #0A66C2;
         }
         .category-tag {
             padding: 2px 8px;
@@ -52,6 +53,7 @@
         .platform-x { background-color: var(--x-color); }
         .platform-youtube { background-color: var(--youtube-color); }
         .platform-tiktok { background-color: var(--tiktok-color); }
+        .platform-linkedin { background-color: var(--linkedin-color); }
 
         .day-column {
             background-color: white;
@@ -59,6 +61,8 @@
             box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
             display: flex;
             flex-direction: column;
+            transition: all 0.3s ease-in-out;
+            position: relative;
         }
         
         .task-item {
@@ -103,6 +107,14 @@
         .task-checkbox:checked + .task-label .category-tag {
             color: white;
         }
+
+        /* 오늘 요일 강조 스타일 */
+        .highlight-day {
+            transform: scale(1.05);
+            z-index: 10;
+            box-shadow: 0 10px 20px -5px rgba(139, 92, 246, 0.3), 0 4px 6px -4px rgba(139, 92, 246, 0.2);
+            border: 2px solid #8b5cf6;
+        }
     </style>
 </head>
 <body class="text-gray-800">
@@ -146,10 +158,6 @@
                         <input type="checkbox" id="mon-b2c-youtube-video" class="task-checkbox">
                         <label for="mon-b2c-youtube-video" class="task-label"><span class="category-tag category-b2c">B2C</span><span class="platform-tag platform-youtube">Youtube</span><span class="task-description">영상</span></label>
                     </div>
-                    <div class="task-item">
-                        <input type="checkbox" id="mon-b2c-youtube-shorts" class="task-checkbox">
-                        <label for="mon-b2c-youtube-shorts" class="task-label"><span class="category-tag category-b2c">B2C</span><span class="platform-tag platform-youtube">Youtube</span><span class="task-description">숏츠</span></label>
-                    </div>
                 </div>
             </div>
 
@@ -188,6 +196,10 @@
                         <input type="checkbox" id="tue-b2c-kakao-summary" class="task-checkbox">
                         <label for="tue-b2c-kakao-summary" class="task-label"><span class="category-tag category-b2c">B2C</span><span class="platform-tag platform-kakao">카카오</span><span class="task-description">블로그 요약</span></label>
                     </div>
+                    <div class="task-item">
+                        <input type="checkbox" id="tue-b2c-youtube-shorts" class="task-checkbox">
+                        <label for="tue-b2c-youtube-shorts" class="task-label"><span class="category-tag category-b2c">B2C</span><span class="platform-tag platform-youtube">Youtube</span><span class="task-description">숏츠</span></label>
+                    </div>
                 </div>
             </div>
 
@@ -209,6 +221,10 @@
                     <div class="task-item">
                         <input type="checkbox" id="wed-b2b-kakao-summary" class="task-checkbox">
                         <label for="wed-b2b-kakao-summary" class="task-label"><span class="category-tag category-b2b">B2B</span><span class="platform-tag platform-kakao">카카오</span><span class="task-description">블로그 요약</span></label>
+                    </div>
+                    <div class="task-item">
+                        <input type="checkbox" id="wed-b2b-linkedin-summary" class="task-checkbox">
+                        <label for="wed-b2b-linkedin-summary" class="task-label"><span class="category-tag category-b2b">B2B</span><span class="platform-tag platform-linkedin">LinkedIn</span><span class="task-description">블로그 요약</span></label>
                     </div>
                     <div class="task-item">
                         <input type="checkbox" id="wed-b2c-insta-reels" class="task-checkbox">
@@ -268,6 +284,10 @@
                         <input type="checkbox" id="thu-b2c-tiktok-video" class="task-checkbox">
                         <label for="thu-b2c-tiktok-video" class="task-label"><span class="category-tag category-b2c">B2C</span><span class="platform-tag platform-tiktok">Tiktok</span><span class="task-description">영상</span></label>
                     </div>
+                    <div class="task-item">
+                        <input type="checkbox" id="thu-b2c-youtube-shorts" class="task-checkbox">
+                        <label for="thu-b2c-youtube-shorts" class="task-label"><span class="category-tag category-b2c">B2C</span><span class="platform-tag platform-youtube">Youtube</span><span class="task-description">숏츠</span></label>
+                    </div>
                 </div>
             </div>
 
@@ -299,8 +319,12 @@
                         <label for="fri-b2b-threads-image" class="task-label"><span class="category-tag category-b2b">B2B</span><span class="platform-tag platform-threads">Threads</span><span class="task-description">이미지 피드</span></label>
                     </div>
                     <div class="task-item">
+                        <input type="checkbox" id="fri-b2b-linkedin-text" class="task-checkbox">
+                        <label for="fri-b2b-linkedin-text" class="task-label"><span class="category-tag category-b2b">B2B</span><span class="platform-tag platform-linkedin">LinkedIn</span><span class="task-description">텍스트 피드</span></label>
+                    </div>
+                    <div class="task-item">
                         <input type="checkbox" id="fri-b2c-youtube-video" class="task-checkbox">
-                        <label for="fri-b2c-youtube-video" class="task-label"><span class="category-tag category-b2c">B2C</span><span class="platform-tag platform-youtube">Youtube</span><span class="task-description">영상 & 숏츠</span></label>
+                        <label for="fri-b2c-youtube-video" class="task-label"><span class="category-tag category-b2c">B2C</span><span class="platform-tag platform-youtube">Youtube</span><span class="task-description">영상</span></label>
                     </div>
                 </div>
             </div>
@@ -348,6 +372,24 @@
                 // 초기 진행상황 업데이트
                 updateProgress(column);
             });
+
+            // 오늘 요일 강조 기능
+            const today = new Date().getDay(); // 0=일, 1=월, 2=화, ...
+            const dayIdMap = {
+                1: 'monday',
+                2: 'tuesday',
+                3: 'wednesday',
+                4: 'thursday',
+                5: 'friday'
+            };
+
+            const currentDayId = dayIdMap[today];
+            if (currentDayId) {
+                const currentDayColumn = document.getElementById(currentDayId);
+                if (currentDayColumn) {
+                    currentDayColumn.classList.add('highlight-day');
+                }
+            }
         });
 
         // 진행상황 카운터 업데이트 함수
