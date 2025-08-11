@@ -45,15 +45,15 @@
             display: inline-block;
             flex-shrink: 0;
         }
-        .platform-naver { background-color: var(--naver-color); }
-        .platform-facebook { background-color: var(--facebook-color); }
-        .platform-kakao { background-color: var(--kakao-color); color: #3B1E1E; }
-        .platform-instagram { background-color: var(--instagram-color); }
-        .platform-threads { background-color: var(--threads-color); }
+        .platform-nb { background-color: var(--naver-color); }
+        .platform-fb { background-color: var(--facebook-color); }
+        .platform-kc { background-color: var(--kakao-color); color: #3B1E1E; }
+        .platform-ig { background-color: var(--instagram-color); }
+        .platform-th { background-color: var(--threads-color); }
         .platform-x { background-color: var(--x-color); }
-        .platform-youtube { background-color: var(--youtube-color); }
-        .platform-tiktok { background-color: var(--tiktok-color); }
-        .platform-linkedin { background-color: var(--linkedin-color); }
+        .platform-yt { background-color: var(--youtube-color); }
+        .platform-nc { background-color: var(--naver-color); } /* Naver Clip */
+        .platform-li { background-color: var(--linkedin-color); }
 
         .day-column {
             background-color: white;
@@ -103,7 +103,7 @@
             opacity: 0.6;
             color: #9ca3af;
         }
-        .task-checkbox:checked + .task-label .platform-kakao,
+        .task-checkbox:checked + .task-label .platform-kc,
         .task-checkbox:checked + .task-label .category-tag {
             color: white;
         }
@@ -114,6 +114,20 @@
             z-index: 10;
             box-shadow: 0 10px 20px -5px rgba(139, 92, 246, 0.3), 0 4px 6px -4px rgba(139, 92, 246, 0.2);
             border: 2px solid #8b5cf6;
+        }
+        
+        .reset-btn {
+            background: none;
+            border: none;
+            color: #6b7280;
+            cursor: pointer;
+            font-size: 0.8rem;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+        .reset-btn:hover {
+            color: #1f2937;
+            background-color: #f3f4f6;
         }
     </style>
 </head>
@@ -131,33 +145,17 @@
             <div class="day-column p-4" id="monday">
                 <div class="flex justify-between items-center border-b pb-2 mb-4">
                     <h2 class="font-bold text-xl text-gray-700">월요일</h2>
+                    <button class="reset-btn" data-day="monday" title="전체 해제">전체 해제</button>
                     <span class="text-sm font-semibold text-gray-500 progress-counter"></span>
                 </div>
                 <div class="space-y-2">
-                    <div class="task-item">
-                        <input type="checkbox" id="mon-b2b-naver-blog" class="task-checkbox">
-                        <label for="mon-b2b-naver-blog" class="task-label"><span class="category-tag category-b2b">B2B</span><span class="platform-tag platform-naver">네이버</span><span class="task-description">블로그 장문</span></label>
-                    </div>
-                    <div class="task-item">
-                        <input type="checkbox" id="mon-b2b-facebook-summary" class="task-checkbox">
-                        <label for="mon-b2b-facebook-summary" class="task-label"><span class="category-tag category-b2b">B2B</span><span class="platform-tag platform-facebook">페이스북</span><span class="task-description">블로그 요약</span></label>
-                    </div>
-                    <div class="task-item">
-                        <input type="checkbox" id="mon-b2b-kakao-summary" class="task-checkbox">
-                        <label for="mon-b2b-kakao-summary" class="task-label"><span class="category-tag category-b2b">B2B</span><span class="platform-tag platform-kakao">카카오</span><span class="task-description">블로그 요약</span></label>
-                    </div>
-                    <div class="task-item">
-                        <input type="checkbox" id="mon-b2c-x-text" class="task-checkbox">
-                        <label for="mon-b2c-x-text" class="task-label"><span class="category-tag category-b2c">B2C</span><span class="platform-tag platform-x">X</span><span class="task-description">텍스트 피드</span></label>
-                    </div>
-                    <div class="task-item">
-                        <input type="checkbox" id="mon-b2c-threads-text" class="task-checkbox">
-                        <label for="mon-b2c-threads-text" class="task-label"><span class="category-tag category-b2c">B2C</span><span class="platform-tag platform-threads">Threads</span><span class="task-description">텍스트 피드</span></label>
-                    </div>
-                    <div class="task-item">
-                        <input type="checkbox" id="mon-b2c-youtube-video" class="task-checkbox">
-                        <label for="mon-b2c-youtube-video" class="task-label"><span class="category-tag category-b2c">B2C</span><span class="platform-tag platform-youtube">Youtube</span><span class="task-description">영상</span></label>
-                    </div>
+                    <div class="task-item"><input type="checkbox" id="mon-task-1" class="task-checkbox"><label for="mon-task-1" class="task-label"><span class="category-tag category-b2b">B2B</span><span class="platform-tag platform-nb">NB</span><span class="task-description">포스팅</span></label></div>
+                    <div class="task-item"><input type="checkbox" id="mon-task-2" class="task-checkbox"><label for="mon-task-2" class="task-label"><span class="category-tag category-b2b">B2B</span><span class="platform-tag platform-fb">FB</span><span class="task-description">블로그 요약</span></label></div>
+                    <div class="task-item"><input type="checkbox" id="mon-task-3" class="task-checkbox"><label for="mon-task-3" class="task-label"><span class="category-tag category-b2b">B2B</span><span class="platform-tag platform-kc">KC</span><span class="task-description">블로그 요약</span></label></div>
+                    <div class="task-item"><input type="checkbox" id="mon-task-4" class="task-checkbox"><label for="mon-task-4" class="task-label"><span class="category-tag category-b2b">B2B</span><span class="platform-tag platform-li">LI</span><span class="task-description">블로그 요약</span></label></div>
+                    <div class="task-item"><input type="checkbox" id="mon-task-5" class="task-checkbox"><label for="mon-task-5" class="task-label"><span class="category-tag category-b2c">B2C</span><span class="platform-tag platform-ig">IG</span><span class="task-description">일정표 카드 뉴스</span></label></div>
+                    <div class="task-item"><input type="checkbox" id="mon-task-6" class="task-checkbox"><label for="mon-task-6" class="task-label"><span class="category-tag category-b2c">B2C</span><span class="platform-tag platform-th">TH</span><span class="task-description">피드</span></label></div>
+                    <div class="task-item"><input type="checkbox" id="mon-task-7" class="task-checkbox"><label for="mon-task-7" class="task-label"><span class="category-tag category-b2c">B2C</span><span class="platform-tag platform-x">X</span><span class="task-description">피드</span></label></div>
                 </div>
             </div>
 
@@ -165,41 +163,17 @@
             <div class="day-column p-4" id="tuesday">
                 <div class="flex justify-between items-center border-b pb-2 mb-4">
                     <h2 class="font-bold text-xl text-gray-700">화요일</h2>
+                    <button class="reset-btn" data-day="tuesday" title="전체 해제">전체 해제</button>
                     <span class="text-sm font-semibold text-gray-500 progress-counter"></span>
                 </div>
                 <div class="space-y-2">
-                    <div class="task-item">
-                        <input type="checkbox" id="tue-b2b-insta-card" class="task-checkbox">
-                        <label for="tue-b2b-insta-card" class="task-label"><span class="category-tag category-b2b">B2B</span><span class="platform-tag platform-instagram">인스타</span><span class="task-description">카드 뉴스</span></label>
-                    </div>
-                    <div class="task-item">
-                        <input type="checkbox" id="tue-b2b-x-text" class="task-checkbox">
-                        <label for="tue-b2b-x-text" class="task-label"><span class="category-tag category-b2b">B2B</span><span class="platform-tag platform-x">X</span><span class="task-description">텍스트 피드</span></label>
-                    </div>
-                     <div class="task-item">
-                        <input type="checkbox" id="tue-b2b-threads-text" class="task-checkbox">
-                        <label for="tue-b2b-threads-text" class="task-label"><span class="category-tag category-b2b">B2B</span><span class="platform-tag platform-threads">Threads</span><span class="task-description">텍스트 피드</span></label>
-                    </div>
-                    <div class="task-item">
-                        <input type="checkbox" id="tue-b2c-naver-blog" class="task-checkbox">
-                        <label for="tue-b2c-naver-blog" class="task-label"><span class="category-tag category-b2c">B2C</span><span class="platform-tag platform-naver">네이버</span><span class="task-description">블로그 장문</span></label>
-                    </div>
-                    <div class="task-item">
-                        <input type="checkbox" id="tue-b2c-insta-card" class="task-checkbox">
-                        <label for="tue-b2c-insta-card" class="task-label"><span class="category-tag category-b2c">B2C</span><span class="platform-tag platform-instagram">인스타</span><span class="task-description">카드 뉴스</span></label>
-                    </div>
-                    <div class="task-item">
-                        <input type="checkbox" id="tue-b2c-facebook-summary" class="task-checkbox">
-                        <label for="tue-b2c-facebook-summary" class="task-label"><span class="category-tag category-b2c">B2C</span><span class="platform-tag platform-facebook">페이스북</span><span class="task-description">블로그 요약</span></label>
-                    </div>
-                    <div class="task-item">
-                        <input type="checkbox" id="tue-b2c-kakao-summary" class="task-checkbox">
-                        <label for="tue-b2c-kakao-summary" class="task-label"><span class="category-tag category-b2c">B2C</span><span class="platform-tag platform-kakao">카카오</span><span class="task-description">블로그 요약</span></label>
-                    </div>
-                    <div class="task-item">
-                        <input type="checkbox" id="tue-b2c-youtube-shorts" class="task-checkbox">
-                        <label for="tue-b2c-youtube-shorts" class="task-label"><span class="category-tag category-b2c">B2C</span><span class="platform-tag platform-youtube">Youtube</span><span class="task-description">숏츠</span></label>
-                    </div>
+                    <div class="task-item"><input type="checkbox" id="tue-task-1" class="task-checkbox"><label for="tue-task-1" class="task-label"><span class="category-tag category-b2b">B2B</span><span class="platform-tag platform-ig">IG</span><span class="task-description">추천 연수 테마 카드 뉴스</span></label></div>
+                    <div class="task-item"><input type="checkbox" id="tue-task-2" class="task-checkbox"><label for="tue-task-2" class="task-label"><span class="category-tag category-b2b">B2B</span><span class="platform-tag platform-th">TH</span><span class="task-description">추천 연수 테마 카드 뉴스</span></label></div>
+                    <div class="task-item"><input type="checkbox" id="tue-task-3" class="task-checkbox"><label for="tue-task-3" class="task-label"><span class="category-tag category-b2b">B2B</span><span class="platform-tag platform-fb">FB</span><span class="task-description">추천 연수 테마 카드 뉴스</span></label></div>
+                    <div class="task-item"><input type="checkbox" id="tue-task-4" class="task-checkbox"><label for="tue-task-4" class="task-label"><span class="category-tag category-b2b">B2B</span><span class="platform-tag platform-li">LI</span><span class="task-description">추천 연수 테마 카드 뉴스</span></label></div>
+                    <div class="task-item"><input type="checkbox" id="tue-task-5" class="task-checkbox"><label for="tue-task-5" class="task-label"><span class="category-tag category-b2c">B2C</span><span class="platform-tag platform-nb">NB</span><span class="task-description">포스팅</span></label></div>
+                    <div class="task-item"><input type="checkbox" id="tue-task-6" class="task-checkbox"><label for="tue-task-6" class="task-label"><span class="category-tag category-b2c">B2C</span><span class="platform-tag platform-fb">FB</span><span class="task-description">블로그 요약</span></label></div>
+                    <div class="task-item"><input type="checkbox" id="tue-task-7" class="task-checkbox"><label for="tue-task-7" class="task-label"><span class="category-tag category-b2c">B2C</span><span class="platform-tag platform-kc">KC</span><span class="task-description">블로그 요약</span></label></div>
                 </div>
             </div>
 
@@ -207,41 +181,15 @@
             <div class="day-column p-4" id="wednesday">
                 <div class="flex justify-between items-center border-b pb-2 mb-4">
                     <h2 class="font-bold text-xl text-gray-700">수요일</h2>
+                    <button class="reset-btn" data-day="wednesday" title="전체 해제">전체 해제</button>
                     <span class="text-sm font-semibold text-gray-500 progress-counter"></span>
                 </div>
                 <div class="space-y-2">
-                    <div class="task-item">
-                        <input type="checkbox" id="wed-b2b-naver-summary" class="task-checkbox">
-                        <label for="wed-b2b-naver-summary" class="task-label"><span class="category-tag category-b2b">B2B</span><span class="platform-tag platform-naver">네이버</span><span class="task-description">블로그 발행</span></label>
-                    </div>
-                    <div class="task-item">
-                        <input type="checkbox" id="wed-b2b-facebook-summary" class="task-checkbox">
-                        <label for="wed-b2b-facebook-summary" class="task-label"><span class="category-tag category-b2b">B2B</span><span class="platform-tag platform-facebook">페이스북</span><span class="task-description">블로그 요약</span></label>
-                    </div>
-                    <div class="task-item">
-                        <input type="checkbox" id="wed-b2b-kakao-summary" class="task-checkbox">
-                        <label for="wed-b2b-kakao-summary" class="task-label"><span class="category-tag category-b2b">B2B</span><span class="platform-tag platform-kakao">카카오</span><span class="task-description">블로그 요약</span></label>
-                    </div>
-                    <div class="task-item">
-                        <input type="checkbox" id="wed-b2b-linkedin-summary" class="task-checkbox">
-                        <label for="wed-b2b-linkedin-summary" class="task-label"><span class="category-tag category-b2b">B2B</span><span class="platform-tag platform-linkedin">LinkedIn</span><span class="task-description">블로그 요약</span></label>
-                    </div>
-                    <div class="task-item">
-                        <input type="checkbox" id="wed-b2c-insta-reels" class="task-checkbox">
-                        <label for="wed-b2c-insta-reels" class="task-label"><span class="category-tag category-b2c">B2C</span><span class="platform-tag platform-instagram">인스타</span><span class="task-description">릴스</span></label>
-                    </div>
-                    <div class="task-item">
-                        <input type="checkbox" id="wed-b2c-facebook-reels" class="task-checkbox">
-                        <label for="wed-b2c-facebook-reels" class="task-label"><span class="category-tag category-b2c">B2C</span><span class="platform-tag platform-facebook">페이스북</span><span class="task-description">릴스</span></label>
-                    </div>
-                    <div class="task-item">
-                        <input type="checkbox" id="wed-b2c-x-meme" class="task-checkbox">
-                        <label for="wed-b2c-x-meme" class="task-label"><span class="category-tag category-b2c">B2C</span><span class="platform-tag platform-x">X</span><span class="task-description">밈 피드</span></label>
-                    </div>
-                    <div class="task-item">
-                        <input type="checkbox" id="wed-b2c-threads-image" class="task-checkbox">
-                        <label for="wed-b2c-threads-image" class="task-label"><span class="category-tag category-b2c">B2C</span><span class="platform-tag platform-threads">Threads</span><span class="task-description">이미지 피드</span></label>
-                    </div>
+                    <div class="task-item"><input type="checkbox" id="wed-task-1" class="task-checkbox"><label for="wed-task-1" class="task-label"><span class="category-tag category-b2c">B2C</span><span class="platform-tag platform-yt">YT</span><span class="task-description">업로드</span></label></div>
+                    <div class="task-item"><input type="checkbox" id="wed-task-2" class="task-checkbox"><label for="wed-task-2" class="task-label"><span class="category-tag category-b2c">B2C</span><span class="platform-tag platform-ig">IG</span><span class="task-description">릴스</span></label></div>
+                    <div class="task-item"><input type="checkbox" id="wed-task-3" class="task-checkbox"><label for="wed-task-3" class="task-label"><span class="category-tag category-b2c">B2C</span><span class="platform-tag platform-th">TH</span><span class="task-description">릴스</span></label></div>
+                    <div class="task-item"><input type="checkbox" id="wed-task-4" class="task-checkbox"><label for="wed-task-4" class="task-label"><span class="category-tag category-b2c">B2C</span><span class="platform-tag platform-fb">FB</span><span class="task-description">릴스</span></label></div>
+                    <div class="task-item"><input type="checkbox" id="wed-task-5" class="task-checkbox"><label for="wed-task-5" class="task-label"><span class="category-tag category-b2c">B2C</span><span class="platform-tag platform-nc">NC</span><span class="task-description">릴스</span></label></div>
                 </div>
             </div>
 
@@ -249,45 +197,16 @@
             <div class="day-column p-4" id="thursday">
                 <div class="flex justify-between items-center border-b pb-2 mb-4">
                     <h2 class="font-bold text-xl text-gray-700">목요일</h2>
+                    <button class="reset-btn" data-day="thursday" title="전체 해제">전체 해제</button>
                     <span class="text-sm font-semibold text-gray-500 progress-counter"></span>
                 </div>
                 <div class="space-y-2">
-                    <div class="task-item">
-                        <input type="checkbox" id="thu-b2b-insta-reels" class="task-checkbox">
-                        <label for="thu-b2b-insta-reels" class="task-label"><span class="category-tag category-b2b">B2B</span><span class="platform-tag platform-instagram">인스타</span><span class="task-description">릴스</span></label>
-                    </div>
-                    <div class="task-item">
-                        <input type="checkbox" id="thu-b2b-facebook-reels" class="task-checkbox">
-                        <label for="thu-b2b-facebook-reels" class="task-label"><span class="category-tag category-b2b">B2B</span><span class="platform-tag platform-facebook">페이스북</span><span class="task-description">릴스</span></label>
-                    </div>
-                    <div class="task-item">
-                        <input type="checkbox" id="thu-b2b-naver-clip" class="task-checkbox">
-                        <label for="thu-b2b-naver-clip" class="task-label"><span class="category-tag category-b2b">B2B</span><span class="platform-tag platform-naver">네이버 클립</span><span class="task-description">영상</span></label>
-                    </div>
-                    <div class="task-item">
-                        <input type="checkbox" id="thu-b2b-tiktok-video" class="task-checkbox">
-                        <label for="thu-b2b-tiktok-video" class="task-label"><span class="category-tag category-b2b">B2B</span><span class="platform-tag platform-tiktok">Tiktok</span><span class="task-description">영상</span></label>
-                    </div>
-                    <div class="task-item">
-                        <input type="checkbox" id="thu-b2c-naver-summary" class="task-checkbox">
-                        <label for="thu-b2c-naver-summary" class="task-label"><span class="category-tag category-b2c">B2C</span><span class="platform-tag platform-naver">네이버</span><span class="task-description">블로그 발행</span></label>
-                    </div>
-                     <div class="task-item">
-                        <input type="checkbox" id="thu-b2c-facebook-summary" class="task-checkbox">
-                        <label for="thu-b2c-facebook-summary" class="task-label"><span class="category-tag category-b2c">B2C</span><span class="platform-tag platform-facebook">페이스북</span><span class="task-description">블로그 요약</span></label>
-                    </div>
-                     <div class="task-item">
-                        <input type="checkbox" id="thu-b2c-kakao-summary" class="task-checkbox">
-                        <label for="thu-b2c-kakao-summary" class="task-label"><span class="category-tag category-b2c">B2C</span><span class="platform-tag platform-kakao">카카오</span><span class="task-description">블로그 요약</span></label>
-                    </div>
-                     <div class="task-item">
-                        <input type="checkbox" id="thu-b2c-tiktok-video" class="task-checkbox">
-                        <label for="thu-b2c-tiktok-video" class="task-label"><span class="category-tag category-b2c">B2C</span><span class="platform-tag platform-tiktok">Tiktok</span><span class="task-description">영상</span></label>
-                    </div>
-                    <div class="task-item">
-                        <input type="checkbox" id="thu-b2c-youtube-shorts" class="task-checkbox">
-                        <label for="thu-b2c-youtube-shorts" class="task-label"><span class="category-tag category-b2c">B2C</span><span class="platform-tag platform-youtube">Youtube</span><span class="task-description">숏츠</span></label>
-                    </div>
+                    <div class="task-item"><input type="checkbox" id="thu-task-1" class="task-checkbox"><label for="thu-task-1" class="task-label"><span class="category-tag category-b2b">B2B</span><span class="platform-tag platform-nb">NB</span><span class="task-description">포스팅</span></label></div>
+                    <div class="task-item"><input type="checkbox" id="thu-task-2" class="task-checkbox"><label for="thu-task-2" class="task-label"><span class="category-tag category-b2b">B2B</span><span class="platform-tag platform-fb">FB</span><span class="task-description">블로그 요약</span></label></div>
+                    <div class="task-item"><input type="checkbox" id="thu-task-3" class="task-checkbox"><label for="thu-task-3" class="task-label"><span class="category-tag category-b2b">B2B</span><span class="platform-tag platform-kc">KC</span><span class="task-description">블로그 요약</span></label></div>
+                    <div class="task-item"><input type="checkbox" id="thu-task-4" class="task-checkbox"><label for="thu-task-4" class="task-label"><span class="category-tag category-b2b">B2B</span><span class="platform-tag platform-li">LI</span><span class="task-description">블로그 요약</span></label></div>
+                    <div class="task-item"><input type="checkbox" id="thu-task-5" class="task-checkbox"><label for="thu-task-5" class="task-label"><span class="category-tag category-b2c">B2C</span><span class="platform-tag platform-x">X</span><span class="task-description">피드</span></label></div>
+                    <div class="task-item"><input type="checkbox" id="thu-task-6" class="task-checkbox"><label for="thu-task-6" class="task-label"><span class="category-tag category-b2c">B2C</span><span class="platform-tag platform-th">TH</span><span class="task-description">피드</span></label></div>
                 </div>
             </div>
 
@@ -295,37 +214,18 @@
             <div class="day-column p-4" id="friday">
                 <div class="flex justify-between items-center border-b pb-2 mb-4">
                     <h2 class="font-bold text-xl text-gray-700">금요일</h2>
+                    <button class="reset-btn" data-day="friday" title="전체 해제">전체 해제</button>
                     <span class="text-sm font-semibold text-gray-500 progress-counter"></span>
                 </div>
                 <div class="space-y-2">
-                    <div class="task-item">
-                        <input type="checkbox" id="fri-b2b-naver-summary" class="task-checkbox">
-                        <label for="fri-b2b-naver-summary" class="task-label"><span class="category-tag category-b2b">B2B</span><span class="platform-tag platform-naver">네이버</span><span class="task-description">블로그 발행</span></label>
-                    </div>
-                    <div class="task-item">
-                        <input type="checkbox" id="fri-b2b-facebook-summary" class="task-checkbox">
-                        <label for="fri-b2b-facebook-summary" class="task-label"><span class="category-tag category-b2b">B2B</span><span class="platform-tag platform-facebook">페이스북</span><span class="task-description">블로그 요약</span></label>
-                    </div>
-                     <div class="task-item">
-                        <input type="checkbox" id="fri-b2b-kakao-summary" class="task-checkbox">
-                        <label for="fri-b2b-kakao-summary" class="task-label"><span class="category-tag category-b2b">B2B</span><span class="platform-tag platform-kakao">카카오</span><span class="task-description">블로그 요약</span></label>
-                    </div>
-                    <div class="task-item">
-                        <input type="checkbox" id="fri-b2b-x-meme" class="task-checkbox">
-                        <label for="fri-b2b-x-meme" class="task-label"><span class="category-tag category-b2b">B2B</span><span class="platform-tag platform-x">X</span><span class="task-description">밈 피드</span></label>
-                    </div>
-                    <div class="task-item">
-                        <input type="checkbox" id="fri-b2b-threads-image" class="task-checkbox">
-                        <label for="fri-b2b-threads-image" class="task-label"><span class="category-tag category-b2b">B2B</span><span class="platform-tag platform-threads">Threads</span><span class="task-description">이미지 피드</span></label>
-                    </div>
-                    <div class="task-item">
-                        <input type="checkbox" id="fri-b2b-linkedin-text" class="task-checkbox">
-                        <label for="fri-b2b-linkedin-text" class="task-label"><span class="category-tag category-b2b">B2B</span><span class="platform-tag platform-linkedin">LinkedIn</span><span class="task-description">텍스트 피드</span></label>
-                    </div>
-                    <div class="task-item">
-                        <input type="checkbox" id="fri-b2c-youtube-video" class="task-checkbox">
-                        <label for="fri-b2c-youtube-video" class="task-label"><span class="category-tag category-b2c">B2C</span><span class="platform-tag platform-youtube">Youtube</span><span class="task-description">영상</span></label>
-                    </div>
+                    <div class="task-item"><input type="checkbox" id="fri-task-1" class="task-checkbox"><label for="fri-task-1" class="task-label"><span class="category-tag category-b2b">B2B</span><span class="platform-tag platform-ig">IG</span><span class="task-description">릴스</span></label></div>
+                    <div class="task-item"><input type="checkbox" id="fri-task-2" class="task-checkbox"><label for="fri-task-2" class="task-label"><span class="category-tag category-b2b">B2B</span><span class="platform-tag platform-fb">FB</span><span class="task-description">릴스</span></label></div>
+                    <div class="task-item"><input type="checkbox" id="fri-task-3" class="task-checkbox"><label for="fri-task-3" class="task-label"><span class="category-tag category-b2b">B2B</span><span class="platform-tag platform-li">LI</span><span class="task-description">릴스</span></label></div>
+                    <div class="task-item"><input type="checkbox" id="fri-task-4" class="task-checkbox"><label for="fri-task-4" class="task-label"><span class="category-tag category-b2b">B2B</span><span class="platform-tag platform-nc">NC</span><span class="task-description">릴스</span></label></div>
+                    <div class="task-item"><input type="checkbox" id="fri-task-5" class="task-checkbox"><label for="fri-task-5" class="task-label"><span class="category-tag category-b2b">B2B</span><span class="platform-tag platform-th">TH</span><span class="task-description">릴스</span></label></div>
+                    <div class="task-item"><input type="checkbox" id="fri-task-6" class="task-checkbox"><label for="fri-task-6" class="task-label"><span class="category-tag category-b2c">B2C</span><span class="platform-tag platform-nb">NB</span><span class="task-description">포스팅</span></label></div>
+                    <div class="task-item"><input type="checkbox" id="fri-task-7" class="task-checkbox"><label for="fri-task-7" class="task-label"><span class="category-tag category-b2c">B2C</span><span class="platform-tag platform-fb">FB</span><span class="task-description">블로그 요약</span></label></div>
+                    <div class="task-item"><input type="checkbox" id="fri-task-8" class="task-checkbox"><label for="fri-task-8" class="task-label"><span class="category-tag category-b2c">B2C</span><span class="platform-tag platform-kc">KC</span><span class="task-description">블로그 요약</span></label></div>
                 </div>
             </div>
         </div>
@@ -336,13 +236,11 @@
             <div class="max-w-sm mx-auto day-column p-4" id="monthly">
                 <div class="flex justify-between items-center border-b pb-2 mb-4">
                     <h2 class="font-bold text-xl text-gray-700">월 2회</h2>
+                    <button class="reset-btn" data-day="monthly" title="전체 해제">전체 해제</button>
                     <span class="text-sm font-semibold text-gray-500 progress-counter"></span>
                 </div>
                 <div class="space-y-2">
-                    <div class="task-item">
-                        <input type="checkbox" id="month-special-kakao-msg" class="task-checkbox">
-                        <label for="month-special-kakao-msg" class="task-label"><span class="category-tag category-special">Special</span><span class="platform-tag platform-kakao">카카오 채널</span><span class="task-description">메시지 발송</span></label>
-                    </div>
+                    <div class="task-item"><input type="checkbox" id="month-task-1" class="task-checkbox"><label for="month-task-1" class="task-label"><span class="category-tag category-b2c">B2C</span><span class="platform-tag platform-kc">KC</span><span class="task-description">상품 메시지 발송</span></label></div>
                 </div>
             </div>
         </div>
@@ -356,33 +254,22 @@
             dayColumns.forEach(column => {
                 const checkboxes = column.querySelectorAll('.task-checkbox');
                 
-                // 페이지 로드 시 저장된 체크박스 상태 불러오기
                 checkboxes.forEach(checkbox => {
                     const savedState = localStorage.getItem(checkbox.id);
                     if (savedState === 'true') {
                         checkbox.checked = true;
                     }
-                    // 체크박스 변경 시 상태 저장 및 UI 업데이트
                     checkbox.addEventListener('change', () => {
                         localStorage.setItem(checkbox.id, checkbox.checked);
                         updateProgress(column);
                     });
                 });
-
-                // 초기 진행상황 업데이트
                 updateProgress(column);
             });
 
             // 오늘 요일 강조 기능
             const today = new Date().getDay(); // 0=일, 1=월, 2=화, ...
-            const dayIdMap = {
-                1: 'monday',
-                2: 'tuesday',
-                3: 'wednesday',
-                4: 'thursday',
-                5: 'friday'
-            };
-
+            const dayIdMap = { 1: 'monday', 2: 'tuesday', 3: 'wednesday', 4: 'thursday', 5: 'friday' };
             const currentDayId = dayIdMap[today];
             if (currentDayId) {
                 const currentDayColumn = document.getElementById(currentDayId);
@@ -390,6 +277,23 @@
                     currentDayColumn.classList.add('highlight-day');
                 }
             }
+
+            // 전체 해제 버튼 기능
+            const resetButtons = document.querySelectorAll('.reset-btn');
+            resetButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const dayId = button.dataset.day;
+                    const targetColumn = document.getElementById(dayId);
+                    if (targetColumn) {
+                        const checkboxes = targetColumn.querySelectorAll('.task-checkbox');
+                        checkboxes.forEach(checkbox => {
+                            checkbox.checked = false;
+                            localStorage.setItem(checkbox.id, 'false');
+                        });
+                        updateProgress(targetColumn);
+                    }
+                });
+            });
         });
 
         // 진행상황 카운터 업데이트 함수
