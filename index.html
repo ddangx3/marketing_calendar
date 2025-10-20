@@ -19,6 +19,7 @@
             --x-color: #000000;
             --youtube-color: #FF0000;
             --linkedin-color: #0A66C2; 
+            --system-color: #64748b;
         }
         .platform-tag {
             padding: 2px 8px; border-radius: 12px; font-size: 0.75rem;
@@ -33,6 +34,8 @@
         .platform-yt { background-color: var(--youtube-color); }
         .platform-nc { background-color: var(--naver-color); }
         .platform-li { background-color: var(--linkedin-color); }
+        .platform-all { background-color: var(--system-color); }
+
 
         .category-tag {
             padding: 2px 8px; border-radius: 12px; font-size: 0.75rem;
@@ -75,7 +78,7 @@
             </div>
         </div>
 
-        <main class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6" id="calendar-grid">
+        <main class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6" id="calendar-grid">
             <!-- Day columns will be injected here by JavaScript -->
         </main>
         
@@ -110,68 +113,78 @@
     document.addEventListener('DOMContentLoaded', () => {
         const calendarData = {
             "월요일": [
-                { id: "mon-b2b-nb-post", cat: "B2B", platform: "NB", task: "포스팅" },
                 { id: "mon-b2b-fb-sum", cat: "B2B", platform: "FB", task: "블로그 요약" },
                 { id: "mon-b2b-ig-sum", cat: "B2B", platform: "IG", task: "블로그 요약" },
-                { id: "mon-b2b-th-sum", cat: "B2B", platform: "TH", task: "블로그 요약" },
                 { id: "mon-b2b-kc-sum", cat: "B2B", platform: "KC", task: "블로그 요약" },
                 { id: "mon-b2b-li-sum", cat: "B2B", platform: "LI", task: "블로그 요약" },
+                { id: "mon-b2b-nb-post", cat: "B2B", platform: "NB", task: "포스팅" },
+                { id: "mon-b2b-th-sum", cat: "B2B", platform: "TH", task: "블로그 요약" },
                 { id: "mon-b2c-ig-sched", cat: "B2C", platform: "IG", task: "일정표 카드 뉴스" },
                 { id: "mon-b2c-th-sched", cat: "B2C", platform: "TH", task: "일정표 카드 뉴스" },
                 { id: "mon-b2c-th-feed", cat: "B2C", platform: "TH", task: "피드" },
                 { id: "mon-b2c-x-feed", cat: "B2C", platform: "X", task: "피드" }
             ],
             "화요일": [
-                { id: "tue-b2b-ig-theme", cat: "B2B", platform: "IG", task: "추천 연수 테마 카드 뉴스" },
-                { id: "tue-b2b-th-theme", cat: "B2B", platform: "TH", task: "추천 연수 테마 카드 뉴스" },
                 { id: "tue-b2b-fb-theme", cat: "B2B", platform: "FB", task: "추천 연수 테마 카드 뉴스" },
+                { id: "tue-b2b-ig-theme", cat: "B2B", platform: "IG", task: "추천 연수 테마 카드 뉴스" },
                 { id: "tue-b2b-li-theme", cat: "B2B", platform: "LI", task: "추천 연수 테마 카드 뉴스" },
-                { id: "tue-b2c-nb-post", cat: "B2C", platform: "NB", task: "포스팅" },
+                { id: "tue-b2b-th-theme", cat: "B2B", platform: "TH", task: "추천 연수 테마 카드 뉴스" },
                 { id: "tue-b2c-fb-sum", cat: "B2C", platform: "FB", task: "블로그 요약" },
                 { id: "tue-b2c-ig-sum", cat: "B2C", platform: "IG", task: "블로그 요약" },
+                { id: "tue-b2c-kc-sum", cat: "B2C", platform: "KC", task: "블로그 요약" },
+                { id: "tue-b2c-nb-post", cat: "B2C", platform: "NB", task: "포스팅" },
                 { id: "tue-b2c-th-sum", cat: "B2C", platform: "TH", task: "블로그 요약" },
-                { id: "tue-b2c-kc-sum", cat: "B2C", platform: "KC", task: "블로그 요약" }
+                { id: "tue-b2c-th-feed", cat: "B2C", platform: "TH", task: "피드" }
             ],
             "수요일": [
-                { id: "wed-b2c-yt-upload", cat: "B2C", platform: "YT", task: "업로드" },
-                { id: "wed-b2c-ig-reels", cat: "B2C", platform: "IG", task: "릴스" },
-                { id: "wed-b2c-th-reels", cat: "B2C", platform: "TH", task: "릴스" },
-                { id: "wed-b2c-fb-reels", cat: "B2C", platform: "FB", task: "릴스" },
-                { id: "wed-b2c-nc-reels", cat: "B2C", platform: "NC", task: "릴스" }
+                { id: "wed-b2c-th-feed", cat: "B2C", platform: "TH", task: "피드" },
+                { id: "wed-b2c-yt-edit", cat: "B2C", platform: "YT", task: "편집" }
             ],
             "목요일": [
-                { id: "thu-b2b-nb-post", cat: "B2B", platform: "NB", task: "포스팅" },
                 { id: "thu-b2b-fb-sum", cat: "B2B", platform: "FB", task: "블로그 요약" },
                 { id: "thu-b2b-ig-sum", cat: "B2B", platform: "IG", task: "블로그 요약" },
-                { id: "thu-b2b-th-sum", cat: "B2B", platform: "TH", task: "블로그 요약" },
                 { id: "thu-b2b-kc-sum", cat: "B2B", platform: "KC", task: "블로그 요약" },
                 { id: "thu-b2b-li-sum", cat: "B2B", platform: "LI", task: "블로그 요약" },
-                { id: "thu-b2c-x-feed", cat: "B2C", platform: "X", task: "피드" },
-                { id: "thu-b2c-th-feed", cat: "B2C", platform: "TH", task: "피드" }
+                { id: "thu-b2b-nb-post", cat: "B2B", platform: "NB", task: "포스팅" },
+                { id: "thu-b2b-th-sum", cat: "B2B", platform: "TH", task: "블로그 요약" },
+                { id: "thu-b2c-fb-reels", cat: "B2C", platform: "FB", task: "릴스" },
+                { id: "thu-b2c-ig-reels", cat: "B2C", platform: "IG", task: "릴스" },
+                { id: "thu-b2c-nc-reels", cat: "B2C", platform: "NC", task: "릴스" },
+                { id: "thu-b2c-th-reels", cat: "B2C", platform: "TH", task: "릴스" },
+                { id: "thu-b2c-th-feed", cat: "B2C", platform: "TH", task: "피드" },
+                { id: "thu-b2c-x-feed", cat: "B2C", platform: "X", task: "피드" }
             ],
             "금요일": [
-                { id: "fri-b2b-ig-reels", cat: "B2B", platform: "IG", task: "릴스" },
-                { id: "fri-b2b-th-reels", cat: "B2B", platform: "TH", task: "릴스" },
                 { id: "fri-b2b-fb-reels", cat: "B2B", platform: "FB", task: "릴스" },
+                { id: "fri-b2b-ig-reels", cat: "B2B", platform: "IG", task: "릴스" },
                 { id: "fri-b2b-li-reels", cat: "B2B", platform: "LI", task: "릴스" },
                 { id: "fri-b2b-nc-reels", cat: "B2B", platform: "NC", task: "릴스" },
-                { id: "fri-b2c-nb-post", cat: "B2C", platform: "NB", task: "포스팅" },
+                { id: "fri-b2b-th-reels", cat: "B2B", platform: "TH", task: "릴스" },
                 { id: "fri-b2c-fb-sum", cat: "B2C", platform: "FB", task: "블로그 요약" },
                 { id: "fri-b2c-ig-sum-fri", cat: "B2C", platform: "IG", task: "블로그 요약" },
+                { id: "fri-b2c-kc-sum", cat: "B2C", platform: "KC", task: "블로그 요약" },
+                { id: "fri-b2c-nb-post", cat: "B2C", platform: "NB", task: "포스팅" },
                 { id: "fri-b2c-th-sum-fri", cat: "B2C", platform: "TH", task: "블로그 요약" },
-                { id: "fri-b2c-kc-sum", cat: "B2C", platform: "KC", task: "블로그 요약" }
+                { id: "fri-b2c-th-feed", cat: "B2C", platform: "TH", task: "피드" }
+            ],
+            "일요일": [
+                 { id: "sun-b2c-yt-upload", cat: "B2C", platform: "YT", task: "업로드" },
+                 { id: "sun-b2b-unfinished", cat: "B2B", platform: "ALL", task: "미완료 항목" },
+                 { id: "sun-b2c-unfinished", cat: "B2C", platform: "ALL", task: "미완료 항목" }
             ]
         };
 
         const platformMap = {
-            NB: 'NB', NC: 'NC', FB: 'FB', IG: 'IG', TH: 'TH', KC: 'KC', LI: 'LI', X: 'X', YT: 'YT'
+            NB: 'NB', NC: 'NC', FB: 'FB', IG: 'IG', TH: 'TH', KC: 'KC', LI: 'LI', X: 'X', YT: 'YT', ALL: 'ALL'
         };
 
         const grid = document.getElementById('calendar-grid');
         const today = new Date().getDay(); // 0=일, 1=월, ..., 6=토
 
         Object.keys(calendarData).forEach((day, index) => {
-            const dayIndex = index + 1;
+            const dayNameMap = {"월요일":1, "화요일":2, "수요일":3, "목요일":4, "금요일":5, "토요일":6, "일요일":0};
+            const dayIndex = dayNameMap[day];
+
             const column = document.createElement('div');
             column.className = 'day-column bg-white p-4 rounded-lg shadow-md flex flex-col space-y-3 transition-all duration-300';
             if (dayIndex === today) {
@@ -283,4 +296,3 @@
     </script>
 </body>
 </html>
-
