@@ -55,8 +55,8 @@
             height: 1.5rem; overflow: hidden;
         }
         .progress-bar-fill {
-            background-color: #4f46e5; transition: width 0.5s ease-in-out; text-align: center;
-            color: white; font-weight: bold; display: flex; align-items: center; justify-content: center;
+            transition: width 0.5s ease-in-out, background-color 0.5s ease-in-out;
+            height: 100%;
         }
     </style>
 </head>
@@ -73,8 +73,11 @@
                     전체 초기화
                 </button>
             </div>
-            <div class="progress-bar-bg">
-                <div id="overall-progress-bar" class="progress-bar-fill" style="width: 0%;">0%</div>
+            <div class="flex items-center gap-4">
+                <div class="progress-bar-bg flex-grow">
+                    <div id="overall-progress-bar-fill" class="progress-bar-fill" style="width: 0%;"></div>
+                </div>
+                <span id="overall-progress-text" class="font-bold text-lg text-gray-800">0%</span>
             </div>
         </div>
 
@@ -110,14 +113,14 @@
     </div>
 
     <script>
-    document.addEventListener('DOMContentLoaded', () => {
+        // --- Data ---
         const calendarData = {
             "월요일": [
+                { id: "mon-b2b-nb-post", cat: "B2B", platform: "NB", task: "포스팅" },
                 { id: "mon-b2b-fb-sum", cat: "B2B", platform: "FB", task: "블로그 요약" },
                 { id: "mon-b2b-ig-sum", cat: "B2B", platform: "IG", task: "블로그 요약" },
                 { id: "mon-b2b-kc-sum", cat: "B2B", platform: "KC", task: "블로그 요약" },
                 { id: "mon-b2b-li-sum", cat: "B2B", platform: "LI", task: "블로그 요약" },
-                { id: "mon-b2b-nb-post", cat: "B2B", platform: "NB", task: "포스팅" },
                 { id: "mon-b2b-th-sum", cat: "B2B", platform: "TH", task: "블로그 요약" },
                 { id: "mon-b2c-ig-sched", cat: "B2C", platform: "IG", task: "일정표 카드 뉴스" },
                 { id: "mon-b2c-th-sched", cat: "B2C", platform: "TH", task: "일정표 카드 뉴스" },
@@ -125,15 +128,15 @@
                 { id: "mon-b2c-x-feed", cat: "B2C", platform: "X", task: "피드" }
             ],
             "화요일": [
+                { id: "tue-b2c-nb-post", cat: "B2C", platform: "NB", task: "포스팅" },
+                { id: "tue-b2c-fb-sum", cat: "B2C", platform: "FB", task: "블로그 요약" },
+                { id: "tue-b2c-ig-sum", cat: "B2C", platform: "IG", task: "블로그 요약" },
+                { id: "tue-b2c-kc-sum", cat: "B2C", platform: "KC", task: "블로그 요약" },
+                { id: "tue-b2c-th-sum", cat: "B2C", platform: "TH", task: "블로그 요약" },
                 { id: "tue-b2b-fb-theme", cat: "B2B", platform: "FB", task: "추천 연수 테마 카드 뉴스" },
                 { id: "tue-b2b-ig-theme", cat: "B2B", platform: "IG", task: "추천 연수 테마 카드 뉴스" },
                 { id: "tue-b2b-li-theme", cat: "B2B", platform: "LI", task: "추천 연수 테마 카드 뉴스" },
                 { id: "tue-b2b-th-theme", cat: "B2B", platform: "TH", task: "추천 연수 테마 카드 뉴스" },
-                { id: "tue-b2c-fb-sum", cat: "B2C", platform: "FB", task: "블로그 요약" },
-                { id: "tue-b2c-ig-sum", cat: "B2C", platform: "IG", task: "블로그 요약" },
-                { id: "tue-b2c-kc-sum", cat: "B2C", platform: "KC", task: "블로그 요약" },
-                { id: "tue-b2c-nb-post", cat: "B2C", platform: "NB", task: "포스팅" },
-                { id: "tue-b2c-th-sum", cat: "B2C", platform: "TH", task: "블로그 요약" },
                 { id: "tue-b2c-th-feed", cat: "B2C", platform: "TH", task: "피드" }
             ],
             "수요일": [
@@ -141,29 +144,29 @@
                 { id: "wed-b2c-yt-edit", cat: "B2C", platform: "YT", task: "편집" }
             ],
             "목요일": [
+                { id: "thu-b2b-nb-post", cat: "B2B", platform: "NB", task: "포스팅" },
                 { id: "thu-b2b-fb-sum", cat: "B2B", platform: "FB", task: "블로그 요약" },
                 { id: "thu-b2b-ig-sum", cat: "B2B", platform: "IG", task: "블로그 요약" },
                 { id: "thu-b2b-kc-sum", cat: "B2B", platform: "KC", task: "블로그 요약" },
                 { id: "thu-b2b-li-sum", cat: "B2B", platform: "LI", task: "블로그 요약" },
-                { id: "thu-b2b-nb-post", cat: "B2B", platform: "NB", task: "포스팅" },
                 { id: "thu-b2b-th-sum", cat: "B2B", platform: "TH", task: "블로그 요약" },
-                { id: "thu-b2c-fb-reels", cat: "B2C", platform: "FB", task: "릴스" },
                 { id: "thu-b2c-ig-reels", cat: "B2C", platform: "IG", task: "릴스" },
+                { id: "thu-b2c-fb-reels", cat: "B2C", platform: "FB", task: "릴스" },
                 { id: "thu-b2c-nc-reels", cat: "B2C", platform: "NC", task: "릴스" },
                 { id: "thu-b2c-th-reels", cat: "B2C", platform: "TH", task: "릴스" },
                 { id: "thu-b2c-th-feed", cat: "B2C", platform: "TH", task: "피드" },
                 { id: "thu-b2c-x-feed", cat: "B2C", platform: "X", task: "피드" }
             ],
             "금요일": [
-                { id: "fri-b2b-fb-reels", cat: "B2B", platform: "FB", task: "릴스" },
                 { id: "fri-b2b-ig-reels", cat: "B2B", platform: "IG", task: "릴스" },
+                { id: "fri-b2b-fb-reels", cat: "B2B", platform: "FB", task: "릴스" },
                 { id: "fri-b2b-li-reels", cat: "B2B", platform: "LI", task: "릴스" },
                 { id: "fri-b2b-nc-reels", cat: "B2B", platform: "NC", task: "릴스" },
                 { id: "fri-b2b-th-reels", cat: "B2B", platform: "TH", task: "릴스" },
+                { id: "fri-b2c-nb-post", cat: "B2C", platform: "NB", task: "포스팅" },
                 { id: "fri-b2c-fb-sum", cat: "B2C", platform: "FB", task: "블로그 요약" },
                 { id: "fri-b2c-ig-sum-fri", cat: "B2C", platform: "IG", task: "블로그 요약" },
                 { id: "fri-b2c-kc-sum", cat: "B2C", platform: "KC", task: "블로그 요약" },
-                { id: "fri-b2c-nb-post", cat: "B2C", platform: "NB", task: "포스팅" },
                 { id: "fri-b2c-th-sum-fri", cat: "B2C", platform: "TH", task: "블로그 요약" },
                 { id: "fri-b2c-th-feed", cat: "B2C", platform: "TH", task: "피드" }
             ],
@@ -173,126 +176,160 @@
                  { id: "sun-b2c-unfinished", cat: "B2C", platform: "ALL", task: "미완료 항목" }
             ]
         };
-
         const platformMap = {
             NB: 'NB', NC: 'NC', FB: 'FB', IG: 'IG', TH: 'TH', KC: 'KC', LI: 'LI', X: 'X', YT: 'YT', ALL: 'ALL'
         };
 
-        const grid = document.getElementById('calendar-grid');
-        const today = new Date().getDay(); // 0=일, 1=월, ..., 6=토
-
-        Object.keys(calendarData).forEach((day, index) => {
-            const dayNameMap = {"월요일":1, "화요일":2, "수요일":3, "목요일":4, "금요일":5, "토요일":6, "일요일":0};
-            const dayIndex = dayNameMap[day];
-
-            const column = document.createElement('div');
-            column.className = 'day-column bg-white p-4 rounded-lg shadow-md flex flex-col space-y-3 transition-all duration-300';
-            if (dayIndex === today) {
-                column.classList.add('today');
+        // --- Helper Functions ---
+        function createTaskElement(task, day) {
+            const taskItem = document.createElement('div');
+            taskItem.className = 'task-item flex items-center p-2 rounded-md transition-colors duration-200';
+            
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.id = task.id;
+            
+            const isWeekly = !(day === "일요일" && task.task === "미완료 항목");
+            let classList = 'h-5 w-5 rounded border-gray-300 text-purple-600 focus:ring-purple-500 cursor-pointer mr-3';
+            if (isWeekly) {
+                 classList += ' weekly-task';
             }
+            checkbox.className = classList;
+            
+            const label = document.createElement('label');
+            label.htmlFor = task.id;
+            label.className = 'flex-grow cursor-pointer';
+            label.innerHTML = `
+                <div class="flex items-center space-x-2">
+                    <span class="category-tag ${task.cat === 'B2B' ? 'category-b2b' : 'category-b2c'}">${task.cat}</span>
+                    <span class="platform-tag platform-${platformMap[task.platform]?.toLowerCase()}">${platformMap[task.platform]}</span>
+                    <span>${task.task}</span>
+                </div>
+            `;
 
-            const header = document.createElement('h2');
-            header.className = 'text-xl font-bold text-center text-gray-700 border-b pb-2 mb-2 flex justify-between items-center';
-            header.innerHTML = `<span>${day}</span> <button data-day="${day}" class="reset-day text-xs font-normal text-gray-500 hover:text-red-500 transition-colors">전체 해제</button>`;
-            column.appendChild(header);
+            taskItem.appendChild(checkbox);
+            taskItem.appendChild(label);
+            return taskItem;
+        }
 
-            const tasksContainer = document.createElement('div');
-            tasksContainer.className = 'flex-grow space-y-2';
+        function updateTaskUI(checkbox) {
+            const taskItem = checkbox.closest('.task-item');
+            if (checkbox.checked) {
+                taskItem.classList.add('bg-gray-200', 'line-through', 'text-gray-500');
+            } else {
+                taskItem.classList.remove('bg-gray-200', 'line-through', 'text-gray-500');
+            }
+        }
 
-            calendarData[day].forEach(task => {
-                const taskItem = document.createElement('div');
-                taskItem.className = 'task-item flex items-center p-2 rounded-md transition-colors duration-200';
-                
-                const checkbox = document.createElement('input');
-                checkbox.type = 'checkbox';
-                checkbox.id = task.id;
-                checkbox.className = 'weekly-task h-5 w-5 rounded border-gray-300 text-purple-600 focus:ring-purple-500 cursor-pointer mr-3';
-                
-                const label = document.createElement('label');
-                label.htmlFor = task.id;
-                label.className = 'flex-grow cursor-pointer';
-                label.innerHTML = `
-                    <div class="flex items-center space-x-2">
-                        <span class="category-tag ${task.cat === 'B2B' ? 'category-b2b' : 'category-b2c'}">${task.cat}</span>
-                        <span class="platform-tag platform-${platformMap[task.platform]?.toLowerCase()}">${platformMap[task.platform]}</span>
-                        <span>${task.task}</span>
-                    </div>
-                `;
-
-                taskItem.appendChild(checkbox);
-                taskItem.appendChild(label);
-                tasksContainer.appendChild(taskItem);
-            });
-
-            column.appendChild(tasksContainer);
-            grid.appendChild(column);
-        });
-
-        // --- Progress Bar and Reset Logic ---
-        const progressBar = document.getElementById('overall-progress-bar');
-        const allCheckboxes = document.querySelectorAll('input[type="checkbox"]');
-        const weeklyCheckboxes = document.querySelectorAll('.weekly-task');
-        const resetAllButton = document.getElementById('reset-all-btn');
-
-        const updateOverallProgress = () => {
+        function updateOverallProgress() {
+            const weeklyCheckboxes = document.querySelectorAll('.weekly-task');
+            const progressBarFill = document.getElementById('overall-progress-bar-fill');
+            const progressText = document.getElementById('overall-progress-text');
+            
             const totalTasks = weeklyCheckboxes.length;
             const completedTasks = Array.from(weeklyCheckboxes).filter(cb => cb.checked).length;
             const percentage = totalTasks === 0 ? 0 : Math.round((completedTasks / totalTasks) * 100);
             
-            progressBar.style.width = `${percentage}%`;
-            progressBar.textContent = `${percentage}%`;
-        };
+            progressBarFill.style.width = `${percentage}%`;
+            progressText.textContent = `${percentage}%`;
 
-        allCheckboxes.forEach(checkbox => {
-            if (localStorage.getItem(checkbox.id) === 'true') {
-                checkbox.checked = true;
-                checkbox.closest('.task-item').classList.add('bg-gray-200', 'line-through', 'text-gray-500');
+            const barColorClasses = ['bg-red-500', 'bg-yellow-500', 'bg-blue-500', 'bg-purple-500'];
+            const textColorClasses = ['text-red-500', 'text-yellow-500', 'text-blue-500', 'text-purple-500'];
+            progressBarFill.classList.remove(...barColorClasses);
+            progressText.classList.remove(...textColorClasses);
+
+            if (percentage >= 91) {
+                progressText.classList.add('text-purple-500');
+                progressBarFill.classList.add('bg-purple-500');
+            } else if (percentage >= 70) {
+                progressText.classList.add('text-blue-500');
+                progressBarFill.classList.add('bg-blue-500');
+            } else if (percentage >= 31) {
+                progressText.classList.add('text-yellow-500');
+                progressBarFill.classList.add('bg-yellow-500');
+            } else { // 0-30%
+                progressText.classList.add('text-red-500');
+                progressBarFill.classList.add('bg-red-500');
             }
-
-            checkbox.addEventListener('change', (e) => {
-                localStorage.setItem(e.target.id, e.target.checked);
-                 if (e.target.checked) {
-                    e.target.closest('.task-item').classList.add('bg-gray-200', 'line-through', 'text-gray-500');
-                } else {
-                    e.target.closest('.task-item').classList.remove('bg-gray-200', 'line-through', 'text-gray-500');
-                }
-                if(e.target.classList.contains('weekly-task')){
-                    updateOverallProgress();
-                }
-            });
-        });
+        }
         
-        document.querySelectorAll('.reset-day').forEach(button => {
-            button.addEventListener('click', (e) => {
-                const dayToReset = e.target.dataset.day;
-                if (confirm(`${dayToReset}의 모든 항목을 해제하시겠습니까?`)) {
+        function populateCalendar() {
+            const grid = document.getElementById('calendar-grid');
+            const today = new Date().getDay();
+
+            Object.keys(calendarData).forEach(day => {
+                const dayNameMap = {"월요일":1, "화요일":2, "수요일":3, "목요일":4, "금요일":5, "토요일":6, "일요일":0};
+                const dayIndex = dayNameMap[day];
+
+                const column = document.createElement('div');
+                column.className = 'day-column bg-white p-4 rounded-lg shadow-md flex flex-col space-y-3 transition-all duration-300';
+                if (dayIndex === today) column.classList.add('today');
+
+                const header = document.createElement('h2');
+                header.className = 'text-xl font-bold text-center text-gray-700 border-b pb-2 mb-2 flex justify-between items-center';
+                header.innerHTML = `<span>${day}</span> <button data-day="${day}" class="reset-day text-xs font-normal text-gray-500 hover:text-red-500 transition-colors">전체 해제</button>`;
+                
+                const tasksContainer = document.createElement('div');
+                tasksContainer.className = 'flex-grow space-y-2';
+                calendarData[day].forEach(task => tasksContainer.appendChild(createTaskElement(task, day)));
+
+                column.appendChild(header);
+                column.appendChild(tasksContainer);
+                grid.appendChild(column);
+            });
+        }
+
+        function setupEventListeners() {
+             const allCheckboxes = document.querySelectorAll('input[type="checkbox"]');
+            allCheckboxes.forEach(checkbox => {
+                checkbox.checked = localStorage.getItem(checkbox.id) === 'true';
+                updateTaskUI(checkbox);
+
+                checkbox.addEventListener('change', () => {
+                    localStorage.setItem(checkbox.id, checkbox.checked);
+                    updateTaskUI(checkbox);
+                    if (checkbox.classList.contains('weekly-task')) {
+                        updateOverallProgress();
+                    }
+                });
+            });
+            
+            document.querySelectorAll('.reset-day').forEach(button => {
+                button.addEventListener('click', e => {
+                    const dayToReset = e.target.dataset.day;
+                    if (!confirm(`${dayToReset}의 모든 항목을 해제하시겠습니까?`)) return;
+
                     calendarData[dayToReset].forEach(task => {
                         const checkbox = document.getElementById(task.id);
                         if (checkbox) {
                             checkbox.checked = false;
                             localStorage.setItem(task.id, 'false');
-                            checkbox.closest('.task-item').classList.remove('bg-gray-200', 'line-through', 'text-gray-500');
+                            updateTaskUI(checkbox);
                         }
                     });
                     updateOverallProgress();
-                }
+                });
             });
-        });
 
-        resetAllButton.addEventListener('click', () => {
-             if (confirm('모든 주간 기록을 초기화하시겠습니까? (정기 발행 제외)')) {
-                weeklyCheckboxes.forEach(checkbox => {
-                     checkbox.checked = false;
-                     localStorage.setItem(checkbox.id, 'false');
-                     checkbox.closest('.task-item').classList.remove('bg-gray-200', 'line-through', 'text-gray-500');
+            document.getElementById('reset-all-btn').addEventListener('click', () => {
+                if (!confirm('모든 주간 기록을 초기화하시겠습니까? (정기 발행 제외)')) return;
+
+                document.querySelectorAll('.weekly-task').forEach(checkbox => {
+                    checkbox.checked = false;
+                    localStorage.setItem(checkbox.id, 'false');
+                    updateTaskUI(checkbox);
                 });
                 updateOverallProgress();
-            }
+            });
+        }
+
+        // --- Main Execution ---
+        document.addEventListener('DOMContentLoaded', () => {
+            populateCalendar();
+            setupEventListeners();
+            updateOverallProgress();
         });
-        
-        // Initial load
-        updateOverallProgress();
-    });
     </script>
 </body>
 </html>
+
