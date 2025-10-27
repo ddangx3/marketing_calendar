@@ -9,6 +9,7 @@
     <style>
         body {
             font-family: 'Noto Sans KR', sans-serif;
+            overflow-wrap: break-word; /* Ensure long words break */
         }
         :root {
             --naver-color: #03C75A;
@@ -23,7 +24,7 @@
         }
         .platform-tag {
             padding: 2px 8px; border-radius: 12px; font-size: 0.75rem;
-            font-weight: 500; color: white; display: inline-block;
+            font-weight: 500; color: white; display: inline-block; flex-shrink: 0; /* Prevent shrinking */
         }
         .platform-nb { background-color: var(--naver-color); }
         .platform-fb { background-color: var(--facebook-color); }
@@ -39,7 +40,7 @@
 
         .category-tag {
             padding: 2px 8px; border-radius: 12px; font-size: 0.75rem;
-            font-weight: 700; color: white;
+            font-weight: 700; color: white; flex-shrink: 0; /* Prevent shrinking */
         }
         .category-b2b { background-color: #0ea5e9; } /* Bright Sky Blue */
         .category-b2c { background-color: #a855f7; } /* Purple */
@@ -58,6 +59,22 @@
             transition: width 0.5s ease-in-out, background-color 0.5s ease-in-out;
             height: 100%;
         }
+        /* Style for the task label content */
+        .task-label-content {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap; /* Allow wrapping */
+            gap: 0.5rem; /* Space between elements */
+            width: 100%; /* Ensure it takes full width */
+        }
+         .task-text {
+            /* Allow text to break onto the next line */
+             word-break: keep-all; /* More natural breaking for Korean */
+             overflow-wrap: break-word;
+             flex-grow: 1; /* Allow text to take remaining space */
+             min-width: 0; /* Important for flex items to shrink properly */
+        }
+
     </style>
 </head>
 <body class="bg-gray-100">
@@ -67,9 +84,9 @@
         </header>
 
         <div class="bg-white p-6 rounded-xl shadow-md mb-8 max-w-4xl mx-auto">
-            <div class="flex justify-between items-center mb-3">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-3 gap-2">
                 <h2 class="text-lg font-bold text-gray-700">전체 진행률</h2>
-                 <button id="reset-all-btn" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg text-sm transition-colors">
+                 <button id="reset-all-btn" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg text-sm transition-colors self-end sm:self-center">
                     전체 초기화
                 </button>
             </div>
@@ -77,11 +94,11 @@
                 <div class="progress-bar-bg flex-grow">
                     <div id="overall-progress-bar-fill" class="progress-bar-fill" style="width: 0%;"></div>
                 </div>
-                <span id="overall-progress-text" class="font-bold text-lg text-gray-800">0%</span>
+                <span id="overall-progress-text" class="font-bold text-lg text-gray-800 flex-shrink-0">0%</span>
             </div>
         </div>
 
-        <main class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6" id="calendar-grid">
+        <main class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 sm:gap-6" id="calendar-grid">
             <!-- Day columns will be injected here by JavaScript -->
         </main>
         
@@ -89,22 +106,22 @@
             <h2 class="text-2xl font-bold text-center text-gray-800 mb-4">정기 발행</h2>
             <div class="max-w-md mx-auto bg-white p-4 rounded-lg shadow-md space-y-2">
                  <div class="task-item flex items-center p-2 rounded-md transition-colors duration-200">
-                    <input type="checkbox" id="monthly-kc-msg-1" class="h-5 w-5 rounded border-gray-300 text-purple-600 focus:ring-purple-500 cursor-pointer mr-3">
-                    <label for="monthly-kc-msg-1" class="flex-grow cursor-pointer">
-                        <div class="flex items-center space-x-2">
+                    <input type="checkbox" id="monthly-kc-msg-1" class="h-5 w-5 rounded border-gray-300 text-purple-600 focus:ring-purple-500 cursor-pointer mr-3 flex-shrink-0">
+                    <label for="monthly-kc-msg-1" class="flex-grow cursor-pointer min-w-0">
+                        <div class="task-label-content">
                            <span class="category-tag category-b2c">B2C</span>
                            <span class="platform-tag platform-kc">KC</span>
-                           <span>상품 메시지 발송 1</span>
+                           <span class="task-text">상품 메시지 발송 1</span>
                         </div>
                     </label>
                 </div>
                 <div class="task-item flex items-center p-2 rounded-md transition-colors duration-200">
-                    <input type="checkbox" id="monthly-kc-msg-2" class="h-5 w-5 rounded border-gray-300 text-purple-600 focus:ring-purple-500 cursor-pointer mr-3">
-                    <label for="monthly-kc-msg-2" class="flex-grow cursor-pointer">
-                        <div class="flex items-center space-x-2">
+                    <input type="checkbox" id="monthly-kc-msg-2" class="h-5 w-5 rounded border-gray-300 text-purple-600 focus:ring-purple-500 cursor-pointer mr-3 flex-shrink-0">
+                    <label for="monthly-kc-msg-2" class="flex-grow cursor-pointer min-w-0">
+                        <div class="task-label-content">
                            <span class="category-tag category-b2c">B2C</span>
                            <span class="platform-tag platform-kc">KC</span>
-                           <span>상품 메시지 발송 2</span>
+                           <span class="task-text">상품 메시지 발송 2</span>
                         </div>
                     </label>
                 </div>
@@ -114,66 +131,70 @@
 
     <script>
         // --- Data ---
+        // New structure based on user request
         const calendarData = {
             "월요일": [
-                { id: "mon-b2b-nb-post", cat: "B2B", platform: "NB", task: "포스팅" },
-                { id: "mon-b2b-fb-sum", cat: "B2B", platform: "FB", task: "블로그 요약" },
+                { id: "mon-b2b-nb-post", cat: "B2B", platform: "NB", task: "블로그 포스팅" },
                 { id: "mon-b2b-ig-sum", cat: "B2B", platform: "IG", task: "블로그 요약" },
-                { id: "mon-b2b-kc-sum", cat: "B2B", platform: "KC", task: "블로그 요약" },
-                { id: "mon-b2b-li-sum", cat: "B2B", platform: "LI", task: "블로그 요약" },
                 { id: "mon-b2b-th-sum", cat: "B2B", platform: "TH", task: "블로그 요약" },
+                { id: "mon-b2b-fb-sum", cat: "B2B", platform: "FB", task: "블로그 요약" },
+                { id: "mon-b2b-li-sum", cat: "B2B", platform: "LI", task: "블로그 요약" },
+                { id: "mon-b2b-kc-sum", cat: "B2B", platform: "KC", task: "블로그 요약" },
                 { id: "mon-b2c-ig-sched", cat: "B2C", platform: "IG", task: "일정표 카드 뉴스" },
                 { id: "mon-b2c-th-sched", cat: "B2C", platform: "TH", task: "일정표 카드 뉴스" },
+                { id: "mon-b2c-fb-sched", cat: "B2C", platform: "FB", task: "일정표 카드 뉴스" }, // Added based on text
+                { id: "mon-b2c-kc-sched", cat: "B2C", platform: "KC", task: "일정표 카드 뉴스" }, // Added based on text
                 { id: "mon-b2c-th-feed", cat: "B2C", platform: "TH", task: "피드" },
                 { id: "mon-b2c-x-feed", cat: "B2C", platform: "X", task: "피드" }
             ],
             "화요일": [
-                { id: "tue-b2c-nb-post", cat: "B2C", platform: "NB", task: "포스팅" },
-                { id: "tue-b2c-fb-sum", cat: "B2C", platform: "FB", task: "블로그 요약" },
+                { id: "tue-b2b-ig-theme", cat: "B2B", platform: "IG", task: "추천 테마 카드뉴스" },
+                { id: "tue-b2b-th-theme", cat: "B2B", platform: "TH", task: "추천 테마 카드뉴스" },
+                { id: "tue-b2b-fb-theme", cat: "B2B", platform: "FB", task: "추천 테마 카드뉴스" },
+                { id: "tue-b2b-li-theme", cat: "B2B", platform: "LI", task: "추천 테마 카드뉴스" },
+                { id: "tue-b2b-kc-theme", cat: "B2B", platform: "KC", task: "추천 테마 카드뉴스" }, // Added based on text
+                { id: "tue-b2c-nb-post", cat: "B2C", platform: "NB", task: "블로그 포스팅" },
                 { id: "tue-b2c-ig-sum", cat: "B2C", platform: "IG", task: "블로그 요약" },
-                { id: "tue-b2c-kc-sum", cat: "B2C", platform: "KC", task: "블로그 요약" },
                 { id: "tue-b2c-th-sum", cat: "B2C", platform: "TH", task: "블로그 요약" },
-                { id: "tue-b2b-fb-theme", cat: "B2B", platform: "FB", task: "추천 연수 테마 카드 뉴스" },
-                { id: "tue-b2b-ig-theme", cat: "B2B", platform: "IG", task: "추천 연수 테마 카드 뉴스" },
-                { id: "tue-b2b-li-theme", cat: "B2B", platform: "LI", task: "추천 연수 테마 카드 뉴스" },
-                { id: "tue-b2b-th-theme", cat: "B2B", platform: "TH", task: "추천 연수 테마 카드 뉴스" },
+                { id: "tue-b2c-fb-sum", cat: "B2C", platform: "FB", task: "블로그 요약" },
+                { id: "tue-b2c-kc-sum", cat: "B2C", platform: "KC", task: "블로그 요약" },
                 { id: "tue-b2c-th-feed", cat: "B2C", platform: "TH", task: "피드" }
             ],
             "수요일": [
-                { id: "wed-b2c-th-feed", cat: "B2C", platform: "TH", task: "피드" },
-                { id: "wed-b2c-yt-edit", cat: "B2C", platform: "YT", task: "편집" }
+                { id: "wed-b2c-yt-edit", cat: "B2C", platform: "YT", task: "편집" },
+                { id: "wed-b2c-th-feed", cat: "B2C", platform: "TH", task: "피드" }
             ],
             "목요일": [
-                { id: "thu-b2b-nb-post", cat: "B2B", platform: "NB", task: "포스팅" },
-                { id: "thu-b2b-fb-sum", cat: "B2B", platform: "FB", task: "블로그 요약" },
+                { id: "thu-b2b-nb-post", cat: "B2B", platform: "NB", task: "블로그 포스팅" },
                 { id: "thu-b2b-ig-sum", cat: "B2B", platform: "IG", task: "블로그 요약" },
-                { id: "thu-b2b-kc-sum", cat: "B2B", platform: "KC", task: "블로그 요약" },
-                { id: "thu-b2b-li-sum", cat: "B2B", platform: "LI", task: "블로그 요약" },
                 { id: "thu-b2b-th-sum", cat: "B2B", platform: "TH", task: "블로그 요약" },
+                { id: "thu-b2b-fb-sum", cat: "B2B", platform: "FB", task: "블로그 요약" },
+                { id: "thu-b2b-li-sum", cat: "B2B", platform: "LI", task: "블로그 요약" },
+                { id: "thu-b2b-kc-sum", cat: "B2B", platform: "KC", task: "블로그 요약" },
                 { id: "thu-b2c-ig-reels", cat: "B2C", platform: "IG", task: "릴스" },
+                { id: "thu-b2c-th-reels", cat: "B2C", platform: "TH", task: "릴스" },
                 { id: "thu-b2c-fb-reels", cat: "B2C", platform: "FB", task: "릴스" },
                 { id: "thu-b2c-nc-reels", cat: "B2C", platform: "NC", task: "릴스" },
-                { id: "thu-b2c-th-reels", cat: "B2C", platform: "TH", task: "릴스" },
                 { id: "thu-b2c-th-feed", cat: "B2C", platform: "TH", task: "피드" },
                 { id: "thu-b2c-x-feed", cat: "B2C", platform: "X", task: "피드" }
             ],
             "금요일": [
                 { id: "fri-b2b-ig-reels", cat: "B2B", platform: "IG", task: "릴스" },
+                { id: "fri-b2b-th-reels", cat: "B2B", platform: "TH", task: "릴스" },
                 { id: "fri-b2b-fb-reels", cat: "B2B", platform: "FB", task: "릴스" },
                 { id: "fri-b2b-li-reels", cat: "B2B", platform: "LI", task: "릴스" },
                 { id: "fri-b2b-nc-reels", cat: "B2B", platform: "NC", task: "릴스" },
-                { id: "fri-b2b-th-reels", cat: "B2B", platform: "TH", task: "릴스" },
-                { id: "fri-b2c-nb-post", cat: "B2C", platform: "NB", task: "포스팅" },
-                { id: "fri-b2c-fb-sum", cat: "B2C", platform: "FB", task: "블로그 요약" },
+                { id: "fri-b2c-nb-post", cat: "B2C", platform: "NB", task: "블로그 포스팅" },
                 { id: "fri-b2c-ig-sum-fri", cat: "B2C", platform: "IG", task: "블로그 요약" },
-                { id: "fri-b2c-kc-sum", cat: "B2C", platform: "KC", task: "블로그 요약" },
                 { id: "fri-b2c-th-sum-fri", cat: "B2C", platform: "TH", task: "블로그 요약" },
+                { id: "fri-b2c-fb-sum", cat: "B2C", platform: "FB", task: "블로그 요약" },
+                { id: "fri-b2c-kc-sum", cat: "B2C", platform: "KC", task: "블로그 요약" },
                 { id: "fri-b2c-th-feed", cat: "B2C", platform: "TH", task: "피드" }
             ],
             "일요일": [
-                 { id: "sun-b2c-yt-upload", cat: "B2C", platform: "YT", task: "업로드" },
                  { id: "sun-b2b-unfinished", cat: "B2B", platform: "ALL", task: "미완료 항목" },
-                 { id: "sun-b2c-unfinished", cat: "B2C", platform: "ALL", task: "미완료 항목" }
+                 { id: "sun-b2c-unfinished", cat: "B2C", platform: "ALL", task: "미완료 항목" },
+                 { id: "sun-b2c-yt-upload", cat: "B2C", platform: "YT", task: "업로드" }
             ]
         };
         const platformMap = {
@@ -183,14 +204,15 @@
         // --- Helper Functions ---
         function createTaskElement(task, day) {
             const taskItem = document.createElement('div');
-            taskItem.className = 'task-item flex items-center p-2 rounded-md transition-colors duration-200';
+            // Ensure taskItem itself is flex and allows wrapping if content overflows badly
+            taskItem.className = 'task-item flex items-center p-2 rounded-md transition-colors duration-200 min-w-0'; // Added min-w-0
             
             const checkbox = document.createElement('input');
             checkbox.type = 'checkbox';
             checkbox.id = task.id;
             
             const isWeekly = !(day === "일요일" && task.task === "미완료 항목");
-            let classList = 'h-5 w-5 rounded border-gray-300 text-purple-600 focus:ring-purple-500 cursor-pointer mr-3';
+            let classList = 'h-5 w-5 rounded border-gray-300 text-purple-600 focus:ring-purple-500 cursor-pointer mr-3 flex-shrink-0'; // Added flex-shrink-0
             if (isWeekly) {
                  classList += ' weekly-task';
             }
@@ -198,12 +220,13 @@
             
             const label = document.createElement('label');
             label.htmlFor = task.id;
-            label.className = 'flex-grow cursor-pointer';
+             // Added min-w-0 here too for nested flex container
+            label.className = 'flex-grow cursor-pointer min-w-0'; 
             label.innerHTML = `
-                <div class="flex items-center space-x-2">
+                <div class="task-label-content">
                     <span class="category-tag ${task.cat === 'B2B' ? 'category-b2b' : 'category-b2c'}">${task.cat}</span>
                     <span class="platform-tag platform-${platformMap[task.platform]?.toLowerCase()}">${platformMap[task.platform]}</span>
-                    <span>${task.task}</span>
+                    <span class="task-text">${task.task}</span>
                 </div>
             `;
 
@@ -256,6 +279,8 @@
         function populateCalendar() {
             const grid = document.getElementById('calendar-grid');
             const today = new Date().getDay();
+            // Clear existing grid content before populating
+            grid.innerHTML = ''; 
 
             Object.keys(calendarData).forEach(day => {
                 const dayNameMap = {"월요일":1, "화요일":2, "수요일":3, "목요일":4, "금요일":5, "토요일":6, "일요일":0};
@@ -267,7 +292,7 @@
 
                 const header = document.createElement('h2');
                 header.className = 'text-xl font-bold text-center text-gray-700 border-b pb-2 mb-2 flex justify-between items-center';
-                header.innerHTML = `<span>${day}</span> <button data-day="${day}" class="reset-day text-xs font-normal text-gray-500 hover:text-red-500 transition-colors">전체 해제</button>`;
+                header.innerHTML = `<span>${day}</span> <button data-day="${day}" class="reset-day text-xs font-normal text-gray-500 hover:text-red-500 transition-colors flex-shrink-0">전체 해제</button>`; // Added flex-shrink-0
                 
                 const tasksContainer = document.createElement('div');
                 tasksContainer.className = 'flex-grow space-y-2';
@@ -294,8 +319,9 @@
                 });
             });
             
-            document.querySelectorAll('.reset-day').forEach(button => {
-                button.addEventListener('click', e => {
+             // Use event delegation for reset buttons for potentially dynamic content
+            document.getElementById('calendar-grid').addEventListener('click', e => {
+                if (e.target.classList.contains('reset-day')) {
                     const dayToReset = e.target.dataset.day;
                     if (!confirm(`${dayToReset}의 모든 항목을 해제하시겠습니까?`)) return;
 
@@ -308,7 +334,7 @@
                         }
                     });
                     updateOverallProgress();
-                });
+                }
             });
 
             document.getElementById('reset-all-btn').addEventListener('click', () => {
@@ -332,4 +358,3 @@
     </script>
 </body>
 </html>
-
